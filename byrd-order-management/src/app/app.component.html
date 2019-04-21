@@ -5,4 +5,4 @@
   </h1>
 </div>
 
-<router-outlet></router-outlet>
+<router-outlet (window:beforeunload)="doPersistenceOfComponentState($event)" (activate)="setRoutedComponent($event)"></router-outlet>

@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+$text-dark-purple-color: #20264a;
+
+.p-1 {
+    padding: 1em;
+}
+
+.customer-order-list-text {
+    color: $text-dark-purple-color;
+}

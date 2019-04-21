@@ -1,22 +1,5 @@
-<mat-grid-list cols="5" rowHeight="25px">
-  <mat-grid-tile>
-    <p>From: {{ selectedFromDate | date}}</p>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <p>To: {{selectedToDate | date}}</p>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <p>Number of Days: {{totalNumberOfDays}}</p>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <p>Total invoice: {{totalInvoice.charge_customer.currency}} {{totalInvoice.charge_customer.total_price}}</p>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <p>Total orders: {{totalOrders}}</p>
-  </mat-grid-tile>
-</mat-grid-list>
 <form [formGroup]="customerOrderForm" (ngSubmit)="onCustomerOrderFormSubmit()">
-  <mat-grid-list cols="4" rowHeight="25px">
+  <mat-grid-list cols="4" rowHeight="25px" class="p-1">
     <mat-grid-tile>
         <mat-form-field>
             <mat-label>Choose a Customer</mat-label>
@@ -44,41 +27,49 @@
           </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
-        <button type="reset">Clear</button>
-        <button type="submit">Show Orders</button>
+        <button mat-raised-button color="primary" type="submit">Show Orders</button>
     </mat-grid-tile>
   </mat-grid-list>
-  
-
-  
-
-  
-
-  
-  
-
 </form>
-
-<mat-grid-list cols="4" rowHeight="70px" *ngFor="let order of orders">
-  <mat-grid-tile *ngFor="let tile of tiles;let i = index;" [colspan]="tile.cols"
-    [rowspan]="i===3?order.items.length:tile.rows" [style.background]="tile.color" [ngSwitch]="i">
-    <div *ngSwitchCase="0">
-      <h4>Name: {{order.recipient.name}} </h4>
-      <p>Email: {{order.recipient.email}} </p>
-    </div>
-    <div *ngSwitchCase="1">
-      <h4 matLine>Total Price: {{order.totalPrice.currency}} {{order.totalPrice.amount}}</h4>
-      <p matLine>Ordered On: {{order.created_at | date}}</p>
-    </div>
-    <div *ngSwitchCase="2">
-      <h4 matLine>Courier: {{order.delivery.courier}}</h4>
-      <p matLine>Method: {{order.delivery.method}}</p>
-    </div>
-    <div *ngSwitchCase="3">
-      <div *ngFor="let item of order.items">
-        <p matLine>Name: {{item.name}} Quantity: {{item.quantity}} Total Price: {{item.total_price.currency}}
-          {{item.total_price.amount}}</p>
-      </div>
-    </div>
+<mat-grid-list cols="5" rowHeight="25px" class="p-1" *ngIf="showOrderInfo">
+  <mat-grid-tile>
+    <p>From: {{ selectedFromDate | date}}</p>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <p>To: {{selectedToDate | date}}</p>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <p>Number of Days: {{totalNumberOfDays}}</p>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <p>Total invoice: {{totalInvoice.charge_customer.total_price | currency: totalInvoice.charge_customer.currency}}</p>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <p>Total orders: {{totalOrders}}</p>
   </mat-grid-tile>
 </mat-grid-list>
+<div class="p-1 customer-order-list-text">
+  <mat-grid-list cols="3" rowHeight="70px" *ngFor="let order of orders">
+    <mat-grid-tile *ngFor="let tile of tiles;let i = index;" [colspan]="tile.cols"
+      [rowspan]="i===3?order.items.length:tile.rows" [style.background]="tile.color" [ngSwitch]="i">
+      <div *ngSwitchCase="0">
+        <h4>Name: {{order.recipient.name}} </h4>
+        <p>Email: {{order.recipient.email}} </p>
+      </div>
+      <div *ngSwitchCase="1">
+        <h4 matLine>Total Price: {{order.totalPrice.amount | currency:order.totalPrice.currency}}</h4>
+        <p matLine>Ordered On: {{order.created_at | date}}</p>
+      </div>
+      <div *ngSwitchCase="2">
+        <h4 matLine>Courier: {{order.delivery.courier}}</h4>
+        <p matLine>Method: {{order.delivery.method}}</p>
+      </div>
+      <div *ngSwitchCase="3">
+        <div *ngFor="let item of order.items">
+          <p matLine>Name: {{item.name}} Quantity: {{item.quantity}} Total Price: 
+            {{item.total_price.amount | currency:item.total_price.currency}}</p>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

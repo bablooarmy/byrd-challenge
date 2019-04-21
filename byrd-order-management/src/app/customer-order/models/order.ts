@@ -25,7 +25,7 @@ export class Order {
         if (this.items && this.items.length > 0) {
             orderItemWithAggregatedTotal = this.items.reduce((acc: OrderItem, cur: OrderItem) => {
                 if (cur.total_price && cur.total_price.amount && cur.total_price.currency) {
-                    acc.total_price.amount = (parseInt(acc.total_price.amount) + parseInt(cur.total_price.amount)).toString();
+                    acc.total_price.amount = (parseFloat(acc.total_price.amount) + parseFloat(cur.total_price.amount)).toString();
                     acc.total_price.currency = cur.total_price.currency;
                 }
                 return acc;
